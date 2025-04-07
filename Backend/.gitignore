@@ -1,0 +1,22 @@
+# Build
+bin/
+obj/
+
+# Usuário e configurações locais do Visual Studio/JetBrains Rider
+*.user
+*.suo
+*.rsuser
+*.userosscache
+*.sln.docstates
+
+# Configurações de IDE
+.vscode/
+.idea/
+
+# Arquivos sensíveis de configuração
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# Logs
+*.log
