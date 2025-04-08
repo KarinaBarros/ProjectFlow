@@ -66,3 +66,8 @@ CREATE TABLE Projects (
 ### **Documentação e testes da api:**
 http://localhost:****/swagger/index.html
 (Substitua **** pela porta informada no terminal.)
+
+## **Frontend**
+
+### **Link para design no figma:**
+https://www.figma.com/proto/lRKe665NWtx5YYAAs4KaMf/ProjectFlow?node-id=1-5&t=8kZrPbDsdbRpLfHC-1
