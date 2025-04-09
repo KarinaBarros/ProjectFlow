@@ -1,25 +1,87 @@
-<h2>Meus Projetos</h2>
-<button (click)="novoProjeto()">Novo Projeto</button>
-<ul>
-  <li *ngFor="let project of projects">
-    {{ project.title }}
-    <button (click)="editProject(project)">Editar</button>
-    <button (click)="deleteProject(project.projectId)">Excluir</button>
-  </li>
-</ul>
-<div *ngIf="selectedProject">
-    <h3>{{ selectedProject.projectId ? 'Editar' : 'Novo' }} Projeto</h3>
-    <form (ngSubmit)="saveProject()" #form="ngForm">
-      <input [(ngModel)]="selectedProject.title" name="title" placeholder="Título" required />
-      <input [(ngModel)]="selectedProject.description" name="description" placeholder="Descrição" required />
-      <input type="number" [(ngModel)]="selectedProject.budget" name="budget" placeholder="Orçamento" required />
-      <input [(ngModel)]="selectedProject.skillsRequired" name="skills" placeholder="Habilidades" />
-      <input type="date" name="deadline" [(ngModel)]="selectedProject.deadline" required #deadline="ngModel" />
-      <div *ngIf="deadline.invalid && deadline.touched">* Campo obrigatório</div>
-      <input [(ngModel)]="selectedProject.status" name="status" placeholder="Status" />
-      <br />
-      <button type="submit">Salvar</button>
-      <button type="button" (click)="selectedProject = null">Cancelar</button>
-    </form>
-  </div>
+<div class="flex">
+  <app-navbar></app-navbar>
+  <div class="flex flex-col w-full">
+    <header class="flex h-12 w-full bg-blue-800">
+      <h2 class="text-white text-2xl m-auto">Projetos</h2>
+    </header>
+    <div class="flex flex-col w-full px-24">
+      <div class="flex w-full gap-4 py-16">
+        <label class="text-2xl w-auto whitespace-nowrap">
+          Pesquisar cadastrados
+        </label>
+        <div class="flex my-auto w-full border border-blue-300 py-1 rounded px-2">
+          <input [(ngModel)]="searchTerm" class="w-full border-0 focus:outline-none" />
+          <mat-icon>search</mat-icon>
+        </div>
+        <button (click)="novoProjeto()" class="bg-green-400 cursor-pointer py-1 px-6 rounded-lg text-white whitespace-nowrap">
+          + Novo
+        </button>
+      </div>
+      <div class="h-96 max-h-96 overflow-auto w-full">
+        <table class="w-[calc(100%-50px)]" *ngIf="projects.length > 1">
+          <thead>
+            <tr>
+              <th class="text-left pb-2 pl-2">ID</th>
+              <th class="text-left pb-2">Título</th>
+              <th class="text-left pb-2">Data de criação</th>
+              <th class="text-left pb-2">Data de entrega</th>
+              <th class="text-center pb-2 w-16">Editar</th>
+              <th class="text-center pb-2 w-16">Excluir</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let project of filteredProjects">
+              <tr class="odd:bg-gray-100 even:bg-white">
+                <td (click)="toggleDetails(project.projectId)" class="cursor-pointer pl-2 py-2">{{ project.projectId }}
+                </td>
+                <td (click)="toggleDetails(project.projectId)" class="cursor-pointer py-2">{{ project.title }}</td>
+                <td (click)="toggleDetails(project.projectId)" class="cursor-pointer py-2">{{ project.createdDate |
+                  date:'dd/MM/yyyy' }}</td>
+                <td (click)="toggleDetails(project.projectId)" class="cursor-pointer py-2">{{ project.deadline |
+                  date:'dd/MM/yyyy' }}</td>
+                <td (click)="toggleDetails(project.projectId)" class="text-blue-800 py-2 text-center">
+                  <span class="cursor-pointer">
+                    <mat-icon (click)="editProject(project)">edit</mat-icon>
+                  </span>
+                </td>
+                <td class="text-red-700 py-2 text-center ">
+                  <span class="cursor-pointer">
+                    <mat-icon (click)="deleteProject(project.projectId)">delete</mat-icon>
+                  </span>
+                </td>
+              </tr>
 
+              <tr *ngIf="expandedProjectId === project.projectId" class="bg-gray-50">
+                <td colspan="6" class="px-4 pb-4 pt-0">
+                  <div class="text-sm text-gray-600">
+                    <p><strong>Descrição:</strong> {{ project.description }}</p>
+                    <p><strong>Status:</strong> {{ project.status }}</p>
+                    <p><strong>Orçamento:</strong> {{ project.budget }}</p>
+                    <p><strong>Skills:</strong> {{project.skillsRequired}}</p>
+
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="selectedProject">
+        <h3>{{ selectedProject.projectId ? 'Editar' : 'Novo' }} Projeto</h3>
+        <form (ngSubmit)="saveProject()" #form="ngForm">
+          <input [(ngModel)]="selectedProject.title" name="title" placeholder="Título" required />
+          <input [(ngModel)]="selectedProject.description" name="description" placeholder="Descrição" required />
+          <input type="number" [(ngModel)]="selectedProject.budget" name="budget" placeholder="Orçamento" required />
+          <input [(ngModel)]="selectedProject.skillsRequired" name="skills" placeholder="Habilidades" />
+          <input type="date" name="deadline" [(ngModel)]="selectedProject.deadline" required #deadline="ngModel" />
+          <div *ngIf="deadline.invalid && deadline.touched">* Campo obrigatório</div>
+          <input [(ngModel)]="selectedProject.status" name="status" placeholder="Status" />
+          <br />
+          <button type="submit">Salvar</button>
+          <button type="button" (click)="selectedProject = null">Cancelar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

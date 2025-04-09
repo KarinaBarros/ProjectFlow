@@ -37,7 +37,7 @@ public class ProjectsController(AppDbContext context) : ControllerBase
             .ToListAsync();
     }
 
-    [HttpGet("{id}")]
+    /*[HttpGet("{id}")]
     public async Task<ActionResult<Project>> GetProject(int id)
     {
         var userId = GetUserIdFromToken();
@@ -50,7 +50,7 @@ public class ProjectsController(AppDbContext context) : ControllerBase
         }
 
         return project;
-    }
+    }*/
 
     [HttpPost]
     public async Task<ActionResult<Project>> CreateProject(ProjectDto projectDto)
@@ -77,7 +77,7 @@ public class ProjectsController(AppDbContext context) : ControllerBase
         _context.Projects.Add(project);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetProject), new { id = project.ProjectId }, project);
+        return Ok(project);
     }
 
     [HttpPut("{id}")]

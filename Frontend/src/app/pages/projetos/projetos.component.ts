@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProjectService } from '../../services/project.service';
+import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-projetos',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent, MatIconModule],
   templateUrl: './projetos.component.html',
   styleUrl: './projetos.component.css',
   standalone: true
@@ -13,6 +15,8 @@ import { ProjectService } from '../../services/project.service';
 export class ProjetosComponent implements OnInit {
   projects: any[] = [];
   selectedProject: any = null;
+  expandedProjectId: number | null = null;
+  searchTerm: string = '';
 
   novoProjeto() {
     this.selectedProject = {
@@ -25,7 +29,13 @@ export class ProjetosComponent implements OnInit {
       createdDate: new Date().toISOString()
     };
   }
- 
+
+  get filteredProjects() {
+    return this.projects.filter(project =>
+      project.title.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+
 
   constructor(private projectService: ProjectService) { }
 
@@ -42,7 +52,7 @@ export class ProjetosComponent implements OnInit {
   }
 
   editProject(project: any) {
-    this.selectedProject = { ...project }; 
+    this.selectedProject = { ...project };
   }
 
   saveProject() {
@@ -62,7 +72,7 @@ export class ProjetosComponent implements OnInit {
         alert('O campo título é obrigatório!');
         return;
       }
-  
+
       this.projectService.createProject(this.selectedProject).subscribe({
         next: () => {
           alert('Projeto criado!');
@@ -80,7 +90,7 @@ export class ProjetosComponent implements OnInit {
   deleteProject(projectId: number) {
     const confirmDelete = confirm('Tem certeza que deseja excluir este projeto?');
     if (!confirmDelete) return;
-  
+
     this.projectService.deleteProject(projectId).subscribe({
       next: () => {
         alert('Projeto excluído com sucesso!');
@@ -91,6 +101,10 @@ export class ProjetosComponent implements OnInit {
         alert('Erro ao excluir o projeto ');
       }
     });
+  }
+
+  toggleDetails(projectId: number) {
+    this.expandedProjectId = this.expandedProjectId === projectId ? null : projectId;
   }
 
 }

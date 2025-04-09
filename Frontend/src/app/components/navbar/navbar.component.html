@@ -1,1 +1,7 @@
-<p>navbar works!</p>
+<nav class="flex flex-col bg-blue-800 w-62 h-screen">
+    <h1 class="text-white font-sans text-3xl text-center mt-4">Project Flow</h1>
+    <a routerLink="/projetos" class="text-white text-center text-2xl mt-12">Projetos</a>
+    <button (click)="logout()" class="text-white mb-4 mt-auto text-xl w-16 cursor-pointer">Sair</button>
+</nav>
+
+<router-outlet></router-outlet>
