@@ -1,0 +1,25 @@
+<h2>Meus Projetos</h2>
+<button (click)="novoProjeto()">Novo Projeto</button>
+<ul>
+  <li *ngFor="let project of projects">
+    {{ project.title }}
+    <button (click)="editProject(project)">Editar</button>
+    <button (click)="deleteProject(project.projectId)">Excluir</button>
+  </li>
+</ul>
+<div *ngIf="selectedProject">
+    <h3>{{ selectedProject.projectId ? 'Editar' : 'Novo' }} Projeto</h3>
+    <form (ngSubmit)="saveProject()" #form="ngForm">
+      <input [(ngModel)]="selectedProject.title" name="title" placeholder="Título" required />
+      <input [(ngModel)]="selectedProject.description" name="description" placeholder="Descrição" required />
+      <input type="number" [(ngModel)]="selectedProject.budget" name="budget" placeholder="Orçamento" required />
+      <input [(ngModel)]="selectedProject.skillsRequired" name="skills" placeholder="Habilidades" />
+      <input type="date" name="deadline" [(ngModel)]="selectedProject.deadline" required #deadline="ngModel" />
+      <div *ngIf="deadline.invalid && deadline.touched">* Campo obrigatório</div>
+      <input [(ngModel)]="selectedProject.status" name="status" placeholder="Status" />
+      <br />
+      <button type="submit">Salvar</button>
+      <button type="button" (click)="selectedProject = null">Cancelar</button>
+    </form>
+  </div>
+

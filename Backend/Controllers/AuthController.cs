@@ -28,7 +28,7 @@ public class AuthController : ControllerBase
     {
         if (_context.Users.Any(u => u.Username == request.Username))
         {
-            return BadRequest("Username already exists.");
+            return BadRequest("Nome de usuário já existe.");
         }
 
         CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -44,7 +44,8 @@ public class AuthController : ControllerBase
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok("User created successfully.");
+        return Ok(new { message = "Usuário criado com sucesso." });
+
     }
 
     [HttpPost("login")]
