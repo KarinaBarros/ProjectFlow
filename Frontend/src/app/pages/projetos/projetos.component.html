@@ -74,7 +74,7 @@
 <div *ngIf="selectedProject" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex">
   <div class="bg-white w-[60%] h-[70vh] m-auto rounded-2xl">
     <div class="bg-blue-800 h-24 flex rounded-t-2xl">
-      <h3 class="text-white text-3xl m-auto">{{ selectedProject.projectId ? 'Editar' : 'Novo Projeto' }}</h3>
+      <h3 class="text-white text-4xl m-auto">{{ selectedProject.projectId ? 'Editar' : 'Novo Projeto' }}</h3>
     </div>
     <form (ngSubmit)="saveProject()" #form="ngForm" class="flex flex-col gap-2 w-full px-8 pt-4">
       <div class="flex w-full gap-4">

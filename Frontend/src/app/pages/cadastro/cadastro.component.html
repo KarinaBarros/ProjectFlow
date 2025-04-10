@@ -1,11 +1,29 @@
-<h2>Cadastro</h2>
-<form (ngSubmit)="form.valid && onRegister()" #form="ngForm">
-  <input type="text" [(ngModel)]="username" name="username" placeholder="Usuário" required />
-  <br />
-  <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-  <br />
-  <input type="password" [(ngModel)]="password" name="password" placeholder="Senha" required />
-  <br />
-  <button type="submit" [disabled]="form.invalid">Cadastrar</button>
-</form>
-
+<div class="w-full h-screen flex">
+  <img src="consulting-3031678_1280.jpg" class="h-[80vh] fixed top-1/2 right-16 -translate-y-1/2 rounded-2xl z-50" />
+  <div class="w-[70%] flex flex-col">
+    <h1 class="mt-6 ml-6 text-2xl text-blue-800">Project Flow</h1>
+    <form (ngSubmit)="form.valid && onRegister()" #form="ngForm"
+      class="flex flex-col w-[50%] mr-62 ml-auto mt-2 h-[80vh] justify-between">
+      <h2 class="text-4xl mt-2">Crie sua conta</h2>
+      <p class="text-gray-400">Crie sua conta agora para gerenciar seus projetos.</p>
+      <label class="flex flex-col gap-2">
+        Email
+        <input type="email" [(ngModel)]="email" name="email" required
+          class="border border-gray-400 focus:outline-none focus:border-b-3 focus:border-b-green-400 p-3 rounded-md !bg-white" />
+      </label>
+      <label class="flex flex-col gap-2">
+        Nome de usuário
+        <input type="text" [(ngModel)]="username" name="username" required
+          class="border border-gray-400 focus:outline-none focus:border-b-3 focus:border-b-green-400 p-3 rounded-md !bg-white" />
+      </label>
+      <label class="flex flex-col gap-2">
+        Senha
+        <input type="password" [(ngModel)]="password" name="password" required
+          class="border border-gray-400 focus:outline-none focus:border-b-3 focus:border-b-green-400 p-3 rounded-md !bg-white" />
+      </label>
+      <button type="submit" [disabled]="form.invalid && loading" class="bg-blue-800 rounded-md p-4 text-white text-xl cursor-pointer">{{loading ? "Carregando" : "Cadastrar"}}</button>
+      <p *ngIf="error" style="color:red">{{ error }}</p>
+    </form>
+  </div>
+  <div class="w-[30%] h-screen bg-blue-800"></div>
+</div>

@@ -9,14 +9,14 @@
       <label class="flex flex-col gap-2">
         Nome de usuário
         <input [(ngModel)]="username" name="username" required
-          class="border border-gray-400 border-b-3 border-b-green-400 p-3 rounded-md" />
+          class="border border-gray-400 focus:outline-none focus:border-b-3 focus:border-b-green-400 p-3 rounded-md !bg-white" />
       </label>
       <label class="flex flex-col gap-2">
         <input [(ngModel)]="password" name="password" type="password" required
-          class="border border-gray-400 p-3 rounded-md" />
+          class="border border-gray-400 focus:outline-none focus:border-b-3 focus:border-b-green-400 p-3 rounded-md !bg-white" />
       </label>
       <a routerLink="/cadastro" class="mr-0 ml-auto text-gray-400">Cadastre-se</a>
-      <button type="submit" class="bg-blue-800 rounded-md p-4 text-white text-xl">Entrar</button>
+      <button type="submit" [disabled]="form.invalid && loading" class="bg-blue-800 rounded-md p-4 text-white text-xl cursor-pointer">{{loading ? "Carregando" : "Login"}}</button>
       <p *ngIf="error" style="color:red">{{ error }}</p>
     </form>
   </div>

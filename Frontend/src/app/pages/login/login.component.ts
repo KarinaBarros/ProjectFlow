@@ -16,13 +16,21 @@ export class LoginComponent {
   username = '';
   password = '';
   error = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
+    this.loading = true;
     this.authService.login({ username: this.username, password: this.password }).subscribe({
-      next: () => this.router.navigate(['/projetos']),
-      error: () => this.error = 'Credenciais inválidas'
+      next: () =>  {
+        this.loading = false;
+        this.router.navigate(['/projetos']);
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Credenciais inválidas';
+      }
     });
   }
 }

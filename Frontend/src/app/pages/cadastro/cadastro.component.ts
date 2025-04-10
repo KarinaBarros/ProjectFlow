@@ -16,10 +16,13 @@ export class CadastroComponent {
   username = '';
   email = '';
   password = '';
+  error = '';
+  loading = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   onRegister() {
+    this.loading = true;
     const user = {
       username: this.username,
       email: this.email,
@@ -29,10 +32,12 @@ export class CadastroComponent {
     this.authService.register(user).subscribe({
       next: () => {
         alert('Usuário cadastrado com sucesso!');
-        this.router.navigate(['/']); // ou para login
+        this.loading = false;
+        this.router.navigate(['/']); 
       },
       error: (err) => {
-        alert('Erro no cadastro: ' + err.error);
+        this.error = 'Erro no cadastro: ' + err.error
+        this.loading = false;
       }
     });
   }
