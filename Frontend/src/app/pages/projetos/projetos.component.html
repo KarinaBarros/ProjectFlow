@@ -13,7 +13,8 @@
           <input [(ngModel)]="searchTerm" class="w-full border-0 focus:outline-none" />
           <mat-icon>search</mat-icon>
         </div>
-        <button (click)="novoProjeto()" class="bg-green-400 cursor-pointer py-1 px-6 rounded-lg text-white whitespace-nowrap">
+        <button (click)="novoProjeto()"
+          class="bg-green-600 cursor-pointer py-1 px-6 rounded-lg text-white whitespace-nowrap">
           + Novo
         </button>
       </div>
@@ -31,7 +32,7 @@
           </thead>
           <tbody>
             <ng-container *ngFor="let project of filteredProjects">
-              <tr class="odd:bg-gray-100 even:bg-white">
+              <tr class="odd:bg-gray-200 even:bg-white">
                 <td (click)="toggleDetails(project.projectId)" class="cursor-pointer pl-2 py-2">{{ project.projectId }}
                 </td>
                 <td (click)="toggleDetails(project.projectId)" class="cursor-pointer py-2">{{ project.title }}</td>
@@ -39,7 +40,7 @@
                   date:'dd/MM/yyyy' }}</td>
                 <td (click)="toggleDetails(project.projectId)" class="cursor-pointer py-2">{{ project.deadline |
                   date:'dd/MM/yyyy' }}</td>
-                <td (click)="toggleDetails(project.projectId)" class="text-blue-800 py-2 text-center">
+                <td class="text-blue-800 py-2 text-center">
                   <span class="cursor-pointer">
                     <mat-icon (click)="editProject(project)">edit</mat-icon>
                   </span>
@@ -56,7 +57,7 @@
                   <div class="text-sm text-gray-600">
                     <p><strong>Descrição:</strong> {{ project.description }}</p>
                     <p><strong>Status:</strong> {{ project.status }}</p>
-                    <p><strong>Orçamento:</strong> {{ project.budget }}</p>
+                    <p><strong>Orçamento:</strong> {{ project.budget | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
                     <p><strong>Skills:</strong> {{project.skillsRequired}}</p>
 
                   </div>
@@ -66,22 +67,63 @@
           </tbody>
         </table>
       </div>
-
-      <div *ngIf="selectedProject">
-        <h3>{{ selectedProject.projectId ? 'Editar' : 'Novo' }} Projeto</h3>
-        <form (ngSubmit)="saveProject()" #form="ngForm">
-          <input [(ngModel)]="selectedProject.title" name="title" placeholder="Título" required />
-          <input [(ngModel)]="selectedProject.description" name="description" placeholder="Descrição" required />
-          <input type="number" [(ngModel)]="selectedProject.budget" name="budget" placeholder="Orçamento" required />
-          <input [(ngModel)]="selectedProject.skillsRequired" name="skills" placeholder="Habilidades" />
-          <input type="date" name="deadline" [(ngModel)]="selectedProject.deadline" required #deadline="ngModel" />
-          <div *ngIf="deadline.invalid && deadline.touched">* Campo obrigatório</div>
-          <input [(ngModel)]="selectedProject.status" name="status" placeholder="Status" />
-          <br />
-          <button type="submit">Salvar</button>
-          <button type="button" (click)="selectedProject = null">Cancelar</button>
-        </form>
-      </div>
     </div>
+  </div>
+</div>
+
+<div *ngIf="selectedProject" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex">
+  <div class="bg-white w-[60%] h-[70vh] m-auto rounded-2xl">
+    <div class="bg-blue-800 h-24 flex rounded-t-2xl">
+      <h3 class="text-white text-3xl m-auto">{{ selectedProject.projectId ? 'Editar' : 'Novo Projeto' }}</h3>
+    </div>
+    <form (ngSubmit)="saveProject()" #form="ngForm" class="flex flex-col gap-2 w-full px-8 pt-4">
+      <div class="flex w-full gap-4">
+        <label class="flex flex-col w-[33%] text-gray-700 text-sm">
+          Título
+          <input [(ngModel)]="selectedProject.title" [readonly]="selectedProject.projectId" maxlength="50" name="title"
+            required class="border border-gray-700 rounded xl px-2 py-1 text-black text-base" />
+        </label>
+        <label class="flex flex-col w-[33%] text-gray-700 text-sm">
+          Prazo
+          <input type="date" name="deadline" [(ngModel)]="selectedProject.deadline" required #deadline="ngModel"
+            class="border border-gray-700 rounded xl px-2 py-1 text-black text-base" />
+        </label>
+        <label class="flex flex-col w-[33%] text-gray-700 text-sm">
+          Orçamento
+          <input type="number" [(ngModel)]="selectedProject.budget" name="budget" required
+            class="border border-gray-700 rounded xl px-2 py-1 text-black text-base" />
+        </label>
+      </div>
+      <label class="flex flex-col w-full text-gray-700 text-sm">
+        Descrição
+        <textarea [(ngModel)]="selectedProject.description" name="description"
+          class="border border-gray-700 rounded xl px-2 py-1 text-black text-base resize-none" required></textarea>
+      </label>
+      <div class="flex w-full gap-4">
+        <label class="flex flex-col w-[70%] text-gray-700 text-sm">
+          Skills
+          <input [(ngModel)]="selectedProject.skillsRequired" name="skills"
+            class="border border-gray-700 rounded xl px-2 py-1 text-black text-base" />
+        </label>
+        <label class="flex flex-col w-[30%] text-gray-700 text-sm">
+          Status
+          <select [(ngModel)]="selectedProject.status" name="status"
+            class="border border-gray-700 rounded xl px-2 py-1 text-black text-base w-full">
+            <option value="" disabled selected></option>
+            <option value="Pendente">Pendente</option>
+            <option value="Em Andamento">Em Andamento</option>
+            <option value="Concluído">Concluído</option>
+          </select>
+        </label>
+      </div>
+      <div class="flex mt-12 justify-center gap-4">
+        <button type="submit"
+          class="bg-green-600 text-white flex items-center justify-center py-1 px-4 rounded-lg text-sm gap-2 cursor-pointer"><mat-icon>save</mat-icon>
+          Salvar</button>
+        <button type="button" (click)="selectedProject = null"
+          class="bg-gray-700 text-white flex items-center justify-center py-1 px-4 rounded-lg text-sm gap-2 cursor-pointer"><mat-icon>save</mat-icon>
+          Cancelar</button>
+      </div>
+    </form>
   </div>
 </div>

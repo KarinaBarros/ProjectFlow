@@ -1,5 +1,5 @@
 <h2>Cadastro</h2>
-<form (ngSubmit)="onRegister()" #form="ngForm">
+<form (ngSubmit)="form.valid && onRegister()" #form="ngForm">
   <input type="text" [(ngModel)]="username" name="username" placeholder="Usuário" required />
   <br />
   <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
